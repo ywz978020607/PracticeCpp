@@ -7,6 +7,9 @@
 // 1. thread is safe now
 // 2. memory doesn't leak
 
+// But still has problem: coredump for compiler reorder. DCLP is not stable for some platform! 
+// see at: https://blog.csdn.net/nodeathphoenix/article/details/51657973
+
 class Singleton{
 public:
     typedef std::shared_ptr<Singleton> Ptr;
@@ -19,6 +22,7 @@ public:
 
         // "double checked lock"
         if(m_instance_ptr==nullptr){
+            std::cout<<"check once-null"<<std::endl;
             std::lock_guard<std::mutex> lk(m_mutex);
             if(m_instance_ptr == nullptr){
               m_instance_ptr = std::shared_ptr<Singleton>(new Singleton);
