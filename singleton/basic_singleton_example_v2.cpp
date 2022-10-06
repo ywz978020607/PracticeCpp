@@ -26,9 +26,14 @@ public:
             std::lock_guard<std::mutex> lk(m_mutex);
             if(m_instance_ptr == nullptr){
               m_instance_ptr = std::shared_ptr<Singleton>(new Singleton);
+              // 第一步：为Singleton对象分配一片内存 
+              // 第二步：构造一个Singleton对象，存入已分配的内存区 
+              // 第三步：将pInstance指向这片内存区
+              // maybe: 1->3->2, 13执行后，B如果此时进入则认为非null直接返回一个未构造对象的内存区
             }
-            return m_instance_ptr;
         }
+
+        return m_instance_ptr;
     }
 
 
