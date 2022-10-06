@@ -22,7 +22,6 @@ public:
 
         // "double checked lock"
         if(m_instance_ptr==nullptr){
-            std::cout<<"check once-null"<<std::endl;
             std::lock_guard<std::mutex> lk(m_mutex);
             if(m_instance_ptr == nullptr){
               m_instance_ptr = std::shared_ptr<Singleton>(new Singleton);
